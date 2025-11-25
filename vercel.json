@@ -1,0 +1,13 @@
+{
+  "functions": {
+    "api/trader/main.py": {
+      "runtime": "python3.9"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/api/trader/:path*",
+      "destination": "/api/trader/main.py"
+    }
+  ]
+}
