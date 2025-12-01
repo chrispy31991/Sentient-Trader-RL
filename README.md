@@ -1,3 +1,15 @@
+A hybrid RL-Grok trading backend for episode-based decision blending. This repo is the public backbone—clone it to experiment with the core API structure, mock RL logic, and Grok integration via a Next.js proxy.
+Important Disclaimer:
+This is a demo-ready skeleton for educational and starter purposes only. The full project includes proprietary components like real RL training (PPO agents via Gym environments), live market data hooks (e.g., yfinance/Polygon integrations), backtesting modules, and episode analytics dashboards. These are housed in private forks to protect ongoing development and integrations with two companion apps (a data feeder and portfolio visualizer). If you're cloning to build on this, focus on extending the hybrid logic—PRs welcome for public enhancements! For the complete "sentient" trader (with alpha-proven strategies and regenerative PPI ethics), reach out via DM or issues for collab discussions.
+Quick Start:
+
+Clone and install: pip install -r requirements.txt
+Set env vars for Supabase and Grok proxy.
+Run: uvicorn main:app --reload
+Test endpoints with the included script: python scripts/test_api.py
+
+Not financial advice—trade at your own risk. Built solo while juggling farms and AI apps. 🚀
+
 # Sentient Trader FastAPI Backend
 
 Python FastAPI backend for the Sentient Trader RL trading platform with **Grok AI integration**.
