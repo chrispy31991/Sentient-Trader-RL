@@ -1,7 +1,10 @@
 Sentient-Trader-RL
+
 A hybrid RL-Grok trading backend for episode-based decision blending. This repo serves as the public backbone—clone it to experiment with the core API structure, mock RL logic, and Grok integration via a Next.js proxy.
+
 Important Disclaimer:
-This is a demo-ready skeleton for educational and starter purposes only. The full project includes proprietary components like real RL training (PPO agents via Gym environments), live market data hooks (e.g., yfinance/Polygon integrations), backtesting modules, and episode analytics dashboards. These are housed in private forks to protect ongoing development and integrations with two companion apps (a data feeder and portfolio visualizer). If you're cloning to build on this, focus on extending the hybrid logic—PRs welcome for public enhancements! For the complete "sentient" trader (with alpha-proven strategies and regenerative PPI ethics), reach out via DM or issues for collab discussions.
+This is a demo-ready skeleton for educational and starter purposes only. The full project includes proprietary components like real RL training (PPO agents via Gym environments), live market data hooks (e.g., yfinance/Polygon integrations), backtesting modules, and episode analytics dashboards. These are housed in private forks to protect ongoing development and integrations with two companion apps (a data feeder and portfolio visualizer). If you're cloning to build on this, focus on extending the hybrid logic—PRs welcome for public enhancements! For the complete "sentient" trader, reach out via DM or issues for collab discussions.
+
 Features
 
 POST /start: Initialize a new RL trading episode with agent configuration and initial balance.
@@ -42,21 +45,24 @@ Provides human-readable reasoning for each action.
 Grok Integration
 Integrates with a Next.js endpoint at /api/grok/trade:
 
-Request Example:JSON{
+Request Example:
+{
   "price": 45000.0,
   "volatility": 0.15,
   "ppiTier": "Esteem",
   "capital": 0.5
 }
-Response Example:JSON{
+Response Example:
+{
   "action": "buy",
   "size": 0.3,
   "reasoning": "Market conditions favorable..."
 }
+
 Features: Retry with exponential backoff (3 attempts), response caching (last 5 decisions), PPI tier mapping.
 
 Architecture
-text┌─────────────────┐
+┌─────────────────┐
 │   Next.js App   │
 │  (Port 3000)    │
 │                 │
@@ -81,6 +87,7 @@ text┌─────────────────┐
 │   Supabase      │
 │   Database      │
 └─────────────────┘
+
 PPI Trust Score
 Tracks PPI (Positive Planetary Impact) scores based on Maslow's hierarchy:
 
@@ -93,25 +100,37 @@ Tracks PPI (Positive Planetary Impact) scores based on Maslow's hierarchy:
 Grok receives the current PPI tier to balance regenerative impact with returns.
 Quick Start
 
-Clone the repo:textgit clone https://github.com/chrispy31991/Sentient-Trader-RL.git
+Clone the repo:
+git clone https://github.com/chrispy31991/Sentient-Trader-RL.git
 cd Sentient-Trader-RL
-Install dependencies:textpip install -r requirements.txt
-Set environment variables:textexport NEXT_PUBLIC_SUPABASE_URL=your_url
+
+Install dependencies:
+textpip install -r requirements.txt
+
+Set environment variables:
+textexport NEXT_PUBLIC_SUPABASE_URL=your_url
 export SUPABASE_SERVICE_ROLE_KEY=your_key
 export NEXT_PUBLIC_TRADER_API_URL=your_api_url  # Default: http://localhost:3000
-Run the server:textuvicorn main:app --reload --port 8000
+
+Run the server:
+textuvicorn main:app --reload --port 8000
 (Optional) Run the Next.js proxy for Grok integration:textcd path/to/nextjs-app  # Your separate Next.js repo
 npm run dev  # Runs on port 3000
-Test the API:textpython scripts/test_api.py
+
+Test the API:
+textpython scripts/test_api.py
 
 Visit http://localhost:8000/docs for interactive Swagger documentation.
+
 API Usage Examples
+
 Start Episode
-textcurl -X POST "http://localhost:8000/start" \
+curl -X POST "http://localhost:8000/start" \
 -H "Content-Type: application/json" \
 -d '{"agent_name": "Agent-Alpha", "initial_balance": 10000}'
+
 Take Step
-textcurl -X POST "http://localhost:8000/step" \
+curl -X POST "http://localhost:8000/step" \
 -H "Content-Type: application/json" \
 -d '{
   "episode_id": "uuid-here",
@@ -123,8 +142,9 @@ textcurl -X POST "http://localhost:8000/step" \
   "current_balance": 10000,
   "current_position": 0.0
 }'
+
 Response includes hybrid reasoning:
-JSON{
+{
   "episode_id": "uuid",
   "step": 1,
   "action": {
@@ -135,8 +155,9 @@ JSON{
   },
   "timestamp": "2025-01-15T10:30:00"
 }
+
 End Episode
-textcurl -X POST "http://localhost:8000/end" \
+curl -X POST "http://localhost:8000/end" \
 -H "Content-Type: application/json" \
 -d '{
   "episode_id": "uuid-here",
@@ -145,12 +166,14 @@ textcurl -X POST "http://localhost:8000/end" \
   "total_steps": 100,
   "total_reward": 25.5
 }'
+
 WebSocket Connection (JavaScript Example)
 JavaScriptconst ws = new WebSocket('ws://localhost:8000/ws/episode/uuid-here');
 ws.onmessage = (event) => {
   const data = JSON.parse(event.data);
   console.log('Received:', data);
 };
+
 Testing
 The test suite (scripts/test_api.py) verifies:
 
@@ -160,7 +183,8 @@ Full episode lifecycle (start, 5 steps with hybrid decisions, end)
 Supabase persistence
 
 Run with:
-textpython scripts/test_api.py
+python scripts/test_api.py
+
 Deployment Options
 Railway (Recommended for WebSockets)
 
@@ -184,9 +208,11 @@ Deploy: vercel --prod
 
 Local Development
 Backend:
-textuvicorn main:app --reload --port 8000
+uvicorn main:app --reload --port 8000
+
 Frontend Proxy (Next.js):
-textnpm run dev  # Port 3000
+npm run dev  # Port 3000
+
 Environment Variables
 
 NEXT_PUBLIC_SUPABASE_URL: Supabase project URL
